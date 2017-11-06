@@ -1,15 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-custom-counter',
-  templateUrl: './custom-counter.component.html',
-  styleUrls: ['./custom-counter.component.css']
+  selector: 'custom-counter',
+  template: `
+    <button (click)="decrement()">-</button>
+    <span>{{counter}}</span>
+    <button (click)="increment()">+</button>
+  `
 })
-export class CustomCounterComponent implements OnInit {
+export class CustomCounterComponent {
 
-  constructor() { }
+  counterValue = 0;
+  @Output() counterChange = new EventEmitter();
 
-  ngOnInit() {
+  @Input()
+  get counter() {
+    return this.counterValue;
   }
 
+  set counter(val) {
+    this.counterValue = val;
+    this.counterChange.emit(this.counterValue);
+  }
+
+  decrement() {
+    this.counter--;
+  }
+
+  increment() {
+    this.counter++;
+  }
 }
